@@ -1,0 +1,66 @@
+using TMPro;
+using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+
+public class TimerOfGame : MonoBehaviour
+{
+    [SerializeField] float time = 30f;
+    [SerializeField] int missed = 0;
+    [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] Image Heart1;
+    [SerializeField] Image heart2;
+    [SerializeField] Image Heart3;
+    [SerializeField] GameObject GameOverPanel;
+    [SerializeField] TextMeshProUGUI FinalScoreText;
+    void Update()
+    {
+        time -= Time.deltaTime;
+
+        timerText.text = "Time: " + Mathf.Ceil(time);
+
+        if (time <= 0)
+        {
+            GameOver();
+        }
+    }
+    public void MissedObject()
+    {
+        missed++;
+
+        if (missed == 1)
+        {
+            Heart1.gameObject.SetActive(false);
+        }
+
+        if (missed == 2)
+        {
+            heart2.gameObject.SetActive(false);
+        }
+
+        if (missed == 3)
+        {
+            Heart3.gameObject.SetActive(false);
+            GameOver();
+        }
+    }
+
+    void GameOver()
+    {
+        Debug.Log("GAME OVER");
+
+        FinalScoreText.text = "Final Score: " + FindFirstObjectByType<GameScore>().GetScore();
+
+        GameOverPanel.SetActive(true);
+
+        Time.timeScale = 0;
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+}
