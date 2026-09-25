@@ -1,0 +1,24 @@
+using TMPro;
+using UnityEngine;
+
+public class GameScore : MonoBehaviour
+{
+    [SerializeField] int score = 0;
+    [SerializeField] TextMeshProUGUI ScoreText;
+
+    void Update()
+    {
+        ScoreText.text = "Score: " + score;
+    }
+
+    public void AddScore()
+    {
+        score++;
+        Debug.Log("Score:" + score);
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+}
